@@ -30,7 +30,37 @@ final class BirthdayViewController: UIViewController {
     }
     
     private func bind() {
+        // 뭔가..... 합칠수있을거같은데.....
+        birthDayPicker.rx.date
+            .bind(with: self) { owner, value in
+                let year = value.toString(format: "yyyy년")
+                let month = value.toString(format: "MM월")
+                let day = value.toString(format: "dd일")
+                
+                print(year, month, day)
+                
+                owner.yearLabel.text = year
+                owner.monthLabel.text = month
+                owner.dayLabel.text = day
+            }
+            .disposed(by: disposeBag)
         
+        birthDayPicker.rx.date
+            .map { value in
+                let yearString = value.toString(format: "yyyy")
+                let year = Int(yearString)
+                return year ?? 0
+            }
+            .map { 2025 - $0 >= 17 }
+            .bind(to: infoLabel.rx.isHidden, nextButton.rx.isEnabled)
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind(with: self) { owner, _ in
+                let vc = ValidationViewController()
+                owner.navigationController?.pushViewController(vc, animated: true)
+            }
+            .disposed(by: disposeBag)
     }
 }
 
