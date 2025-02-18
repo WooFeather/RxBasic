@@ -26,6 +26,7 @@ final class ValidationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureLayout()
         configureView()
         bind()
     }
@@ -48,7 +49,7 @@ final class ValidationViewController: UIViewController {
         let everythingValid = Observable.combineLatest(usernameValid, passwordValid) { $0 && $1 }
             .share(replay: 1)
         
-        // username의 유효성이 password TF의 isEnabled의 상태와 같도록 함
+        // username이 유효하지 않다면 passwordTF 비활성화
         usernameValid
             .bind(to: passwordTextField.rx.isEnabled)
             .disposed(by: disposeBag)
@@ -76,10 +77,7 @@ final class ValidationViewController: UIViewController {
 }
 
 extension ValidationViewController {
-    private func configureView() {
-        view.backgroundColor = .white
-        navigationItem.title = "Simple Validation"
-        
+    private func configureLayout() {
         [usernameLabel, usernameTextField, usernameValidationLabel, passwordLabel, passwordTextField, passwordValidationLabel, signInButton].forEach { view.addSubview($0) }
         
         usernameLabel.snp.makeConstraints { make in
@@ -123,6 +121,11 @@ extension ValidationViewController {
             make.horizontalEdges.equalToSuperview().inset(12)
             make.height.equalTo(44)
         }
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        navigationItem.title = "Simple Validation"
         
         usernameLabel.text = "Username"
         usernameLabel.font = .systemFont(ofSize: 17)

@@ -23,6 +23,7 @@ final class NumbersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureLayout()
         configureView()
         bind()
     }
@@ -42,10 +43,7 @@ final class NumbersViewController: UIViewController {
 }
 
 extension NumbersViewController {
-    private func configureView() {
-        view.backgroundColor = .white
-        navigationItem.title = "Adding Numbers"
-        
+    private func configureLayout() {
         [firstNumberTextField, secondNumberTextField, thirdNumberTextField, plusLabel, lineView, resultLabel].forEach { view.addSubview($0) }
         
         firstNumberTextField.snp.makeConstraints { make in
@@ -87,6 +85,11 @@ extension NumbersViewController {
             make.width.equalTo(100)
             make.height.equalTo(21)
         }
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        navigationItem.title = "Adding Numbers"
         
         firstNumberTextField.borderStyle = .roundedRect
         secondNumberTextField.borderStyle = .roundedRect
