@@ -21,28 +21,11 @@ final class SimpleTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configView()
-        configTableView()
+        configureView()
+        configureTableView()
         bind()
     }
     
-    private func configView() {
-        view.backgroundColor = .white
-        
-        view.addSubview(tableView)
-        
-        tableView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-    }
-    
-    private func configTableView() {
-        // tableView.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.id)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
-    }
-}
-
-extension SimpleTableViewController: UITableViewDelegate {
     private func bind() {
         // 커스텀뷰 테스트
 //        items
@@ -74,5 +57,23 @@ extension SimpleTableViewController: UITableViewDelegate {
                 }
             }
             .disposed(by: disposeBag)
+    }
+}
+
+extension SimpleTableViewController {
+    private func configureView() {
+        view.backgroundColor = .white
+        navigationItem.title = "SimpleTableView"
+        
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints { make in
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+        }
+    }
+    
+    private func configureTableView() {
+        // tableView.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.id)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "Cell")
     }
 }
